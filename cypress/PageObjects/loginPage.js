@@ -1,6 +1,7 @@
 import LOCATORS from "../Locators/loginPage_Locators";
 import data from "../fixtures/login_data.json";
 
+
 class LoginPage {
   visitLoginPage() 
   {
@@ -10,10 +11,12 @@ class LoginPage {
   {
     cy.get(LOCATORS.changeLanguage).click();
   }
-  fillLoginForm() 
-  {
-    cy.get(LOCATORS.userName).type(data.login_username);
-    cy.get(LOCATORS.password).type(data.login_password);
+ fillLoginForm() {
+    const username = Cypress.env("username");
+    const password = Cypress.env("password");
+
+    cy.get(LOCATORS.userName).type(username);
+    cy.get(LOCATORS.password).type(password);
   }
   submitLogin() 
   {
