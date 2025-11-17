@@ -15,19 +15,29 @@ stages:
   displayName: "Run Cypress Tests"
   jobs:
     - job: TestJob
+      displayName: "Execute Cypress Tests"
       steps:
-        # ✅ Install Node.js (compatible version)
+
+        # Install Node.js
         - task: NodeTool@0
           inputs:
             versionSpec: '18.18.2'
           displayName: "Install Node.js 18.18.2"
 
-        # ✅ Run Cypress Tests
+        # Run Cypress with secure variables
         - script: |
             echo "Installing dependencies..."
             npm ci
+
             echo "Verifying Cypress installation..."
             npx cypress verify
-            echo "Running Cypress tests..."
-            npx cypress run --browser electron --headless --spec "cypress/e2e/integration/*.cy.js"
-          displayName: "Execute Cypress Tests"
+
+            echo "Running Cypress tests with Azure secret variables..."
+
+            npx cypress run \
+              --browser electron \
+              --headless \
+              --env username=$(CYPRESS_USERNAME),password=$(CYPRESS_PASSWORD) \
+              --spec "cypress/e2e/integration/*.cy.js"
+
+          displayName: "Run Cypress Tests"
