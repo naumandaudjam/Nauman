@@ -1,0 +1,38 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool: 'Croem Build Servers'
+
+stages:
+
+# ============================
+# 🧪 Stage: Run Cypress Tests
+# ============================
+- stage: Test
+  displayName: "Run Cypress Tests"
+  jobs:
+    - job: CypressJob
+      displayName: "Execute Cypress Tests"
+      steps:
+
+        # ---------------------------------
+        # 1️⃣ Install Node.js
+        # ---------------------------------
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '18.x'
+          displayName: "Install Node.js"
+
+        # ---------------------------------
+        # 2️⃣ Install Dependencies
+        # ---------------------------------
+        - script: npm ci
+          displayName: "Install NPM Dependencies"
+
+        # ---------------------------------
+        # 4️⃣ Run Cypress Tests (Headless Chrome)
+        # ---------------------------------
+        - script: npx cypress run --browser chrome
+          displayName: "Run Cypress Tests"
