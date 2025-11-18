@@ -1,0 +1,24 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool: 'Croem Build Servers'
+
+steps:
+
+# 1️⃣ Install Node
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
+# 2️⃣ Install NPM dependencies
+- script: |
+    npm ci
+  displayName: 'Install dependencies'
+
+# 3️⃣ Run Cypress tests
+- script: |
+    npx cypress run
+  displayName: 'Run Cypress Tests'
