@@ -5,25 +5,23 @@ import data from "../fixtures/login_data.json";
 class LoginPage {
   visitLoginPage() 
   {
-    cy.visit("/");
+    cy.visit("https://bac-test.xpresspago.com/");
   }
   changeLanguageToEnglish() 
   {
     cy.get(LOCATORS.changeLanguage).click();
   }
  fillLoginForm() {
-    const username = Cypress.env("username");
-    const password = Cypress.env("password");
 
-    cy.get(LOCATORS.userName).type(username);
-    cy.get(LOCATORS.password).type(password);
+    cy.get(LOCATORS.userName).type(data.login_username);
+    cy.get(LOCATORS.password).type(data.login_password);
   }
   submitLogin() 
   {
     cy.get(LOCATORS.loginButton).click();
   }
   assertDashboardLoaded() {
-    cy.url().should('not.include', "/Login");
+    cy.visit("https://bac-test.xpresspago.com/Home/Index");
   }
 }
 

@@ -1,18 +1,18 @@
 /// <reference types="cypress" />
-import LoginPage from "../PageObjects/loginPage"
+import LoginPage from "../PageObjects/loginPage";
 
 const loginPage = LoginPage;
-
 const LOGIN_SESSION_KEY = "default-login-session";
 
 Cypress.Commands.add("loginWithSession", () => {
-  cy.session(
+  return cy.session(
     LOGIN_SESSION_KEY,
     () => {
       loginPage.visitLoginPage();
       loginPage.changeLanguageToEnglish();
       loginPage.fillLoginForm();
       loginPage.submitLogin();
+      loginPage.assertDashboardLoaded();
     },
     {
       cacheAcrossSpecs: true,
@@ -21,8 +21,12 @@ Cypress.Commands.add("loginWithSession", () => {
 });
 
 const shouldAutoLogin = () => {
-  const specName = (Cypress.spec?.name || "").toLowerCase();
-  return specName !== "" && !specName.includes("login");
+  const specPath = (Cypress.spec?.name || "").toLowerCase();
+  if (!specPath) {
+    return false;
+  }
+  const specFile = specPath.split(/[/\\]/).pop() || "";
+  return specFile !== "" && !specFile.includes("login");
 };
 
 beforeEach(() => {

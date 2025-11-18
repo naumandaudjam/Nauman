@@ -10,6 +10,10 @@ class addCompanyPage {
     {
         cy.get(LOCATORS.addCompanyButton).click();
     }
+    validateAddCompanyForm()
+    {
+        cy.url().should('include', 'https://bac-test.xpresspago.com/Client/Edit/0');
+    }
     addCompanyName()
     {
         const companyName = companyName_Utilities;
@@ -43,6 +47,15 @@ class addCompanyPage {
     assertCompanyCreated()
     {
         cy.url().should('include', baseUrl_Client_Utilities);
+    }
+    assertFormVisible()
+    {
+        cy.url().should('include', LOCATORS.addCompanyFormUrl);
+        cy.get(LOCATORS.addCompanyButton).should('be.visible');
+    }
+    assertModalVisible()
+    {
+        cy.get(LOCATORS.addCompanyName).should('be.visible');
     }
 }
 

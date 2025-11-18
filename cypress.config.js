@@ -1,14 +1,24 @@
 const { defineConfig } = require("cypress");
-const shouldRecordArtifacts = process.env.CYPRESS_RECORD_ARTIFACTS === "1";
+const allureWriter = require("@shelex/cypress-allure-plugin/writer");
 
 module.exports = defineConfig({
-  video: shouldRecordArtifacts,
-  screenshotOnRunFailure: shouldRecordArtifacts,
+  reporter: "allure",
+  reporterOptions: {
+    allureLogCypress: true,
+    allureOmitPreviousAttemptScreenshots: true,
+  },
   e2e: {
     baseUrl: "https://bac-test.xpresspago.com",
     experimentalSessionAndOrigin: true,
     pageLoadTimeout: 120000,
+    env: {
+      allure: true,
+      allureResultsPath: "allure-results",
+      allureAttachRequests: true,
+      allureReuseAfterSpec: true,
+    },
     setupNodeEvents(on, config) {
+      allureWriter(on, config);
       return config;
     },
   },
