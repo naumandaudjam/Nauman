@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+      - main
+
+# 👇 Use your self-hosted agent pool
+pool:
+  name: 'Croem Build Servers'
+
+stages:
+
+# ========================
+# 🧪 Run Cypress Tests
+# ========================
+- stage: Test
+  displayName: "Run Cypress Tests"
+  jobs:
+    - job: Cypress_Test_Job
+      displayName: "Execute Cypress Tests"
+      steps:
+
+        # 📦 Install Node.js (compatible version)
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '18.x'
+          displayName: "Install Node.js"
+
+        # 📥 Install Dependencies
+        - script: |
+            npm ci
+          displayName: "Install NPM Dependencies"
+
+        # 🧪 Run Cypress tests in headless mode
+        - script: |
+            npx cypress run
+          displayName: "Run Cypress Tests"
