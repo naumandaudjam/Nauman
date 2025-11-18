@@ -1,0 +1,20 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'Hosted Agent'  # Microsoft-hosted Windows machine
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install
+    displayName: 'Install dependencies'
+
+  - script: |
+      npx cypress verify
+      npx cypress run
+    displayName: 'Run Cypress Tests'
