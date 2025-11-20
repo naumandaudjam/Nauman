@@ -1,0 +1,44 @@
+trigger:
+  branches:
+    include:
+      - main
+
+# 👇 Use your self-hosted agent pool
+pool:
+  name: 'Croem Build Servers'
+
+steps:
+
+# ------------------------------
+# Install Node 22 (Recommended)
+# ------------------------------
+- task: NodeTool@0
+  inputs:
+    versionSpec: '22.x'
+  displayName: "Install Node.js 22.x"
+
+# ------------------------------
+# FAST NPM INSTALL (Best for CI)
+# ------------------------------
+- script: |
+    echo Installing packages...
+    npm install --no-audit --no-fund --prefer-offline
+  displayName: "FAST Install Dependencies"
+
+# ------------------------------
+# Run Cypress Tests (Chrome Headless)
+# ------------------------------
+- script: |
+    echo Running Cypress...
+    npx cypress run --browser chrome --headless
+  displayName: "Run Cypress Tests"
+
+# ------------------------------
+# Publish Mochawesome Report
+# ------------------------------
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'reports/mocha'
+    ArtifactName: 'mocha-report'
+    publishLocation: 'Container'
+  displayName: "Upload Mocha Report Artifacts"
