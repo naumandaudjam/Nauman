@@ -2,6 +2,7 @@ import searchCompany from "../../PageObjects/searchCompany";
 import LOCATORS from "../../Locators/searchCompany_Locators";
 
 describe("Search Company", () => {
+
   beforeEach(() => {
     searchCompany.loadSearchCompanyForm();
   });

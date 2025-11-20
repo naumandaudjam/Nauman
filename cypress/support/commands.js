@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+
 import LoginPage from "../PageObjects/loginPage";
 
 const loginPage = LoginPage;
@@ -19,7 +20,6 @@ Cypress.Commands.add("loginWithSession", () => {
     }
   );
 });
-
 
 beforeEach(() => {
     cy.loginWithSession();

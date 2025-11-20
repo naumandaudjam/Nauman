@@ -2,6 +2,7 @@ import addCompany from "../../PageObjects/addCompanyPage";
 import LOCATORS from "../../Locators/addCompany_Locators";
 
 describe("Add Company Test Suite", () => {
+
   beforeEach(() => {
     addCompany.loadCompanyForm();
   });
@@ -15,7 +16,6 @@ describe("Add Company Test Suite", () => {
     addCompany.tapAddCompanyBtn();
     addCompany.validateAddCompanyForm();
     addCompany.assertModalVisible();
-
     cy.get(LOCATORS.addCompanyName).should("be.visible");
     cy.get(LOCATORS.addRUC).should("be.visible");
     cy.get(LOCATORS.addCity).should("be.visible");
