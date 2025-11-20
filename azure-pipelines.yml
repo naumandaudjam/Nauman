@@ -3,45 +3,42 @@ trigger:
     include:
       - main
 
+# 👇 Use your self-hosted agent pool
 pool:
   name: 'Croem Build Servers'
 
 steps:
 
-# Install Node
+# ------------------------------
+# Install Node 22 (Recommended)
+# ------------------------------
 - task: NodeTool@0
   inputs:
-    versionSpec: '20.x'
-  displayName: "Install Node.js 20.x"
+    versionSpec: '22.x'
+  displayName: "Install Node.js 22.x"
 
-# Install packages
+# ------------------------------
+# FAST NPM INSTALL (Best for CI)
+# ------------------------------
 - script: |
     echo Installing packages...
     npm install --no-audit --no-fund --prefer-offline
   displayName: "FAST Install Dependencies"
 
-# Run Cypress Tests
+# ------------------------------
+# Run Cypress Tests (Chrome Headless)
+# ------------------------------
 - script: |
     echo Running Cypress...
-    npx cypress run --browser chrome
+    npx cypress run --browser chrome --headless
   displayName: "Run Cypress Tests"
 
-# Merge Mochawesome JSON reports (optional but recommended)
-- script: |
-    echo Merging Mochawesome reports...
-    npx mochawesome-merge reports/mocha/*.json > merged-report.json
-  displayName: "Merge Mochawesome JSON"
-
-# Generate final HTML report
-- script: |
-    echo Generating HTML report...
-    npx mochawesome-report-generator merged-report.json -o reports/mocha/html
-  displayName: "Generate HTML Report"
-
-# Upload reports as artifacts
+# ------------------------------
+# Publish Mochawesome Report
+# ------------------------------
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'reports/mocha'
-    ArtifactName: 'cypress-mocha-report'
+    ArtifactName: 'mocha-report'
     publishLocation: 'Container'
-  displayName: "📁 Upload Mochawesome Reports"
+  displayName: "Upload Mocha Report Artifacts"
