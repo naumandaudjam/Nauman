@@ -4,7 +4,7 @@ import { baseUrl_Client_Utilities } from "../support/utilities.js";
 class search_Company_Page {
     loadSearchCompanyForm() 
     {
-        cy.visit("/Client/Index");
+        cy.visit(baseUrl_Client_Utilities);
     }
     searchCompanyName()
     {

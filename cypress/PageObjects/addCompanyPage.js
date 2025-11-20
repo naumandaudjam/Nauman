@@ -4,7 +4,7 @@ import { baseUrl_Client_Utilities, companyName_Utilities, randomEmail_Utilities 
 class addCompanyPage {
     loadCompanyForm() 
     {
-        cy.visit("/Client/Index");
+        cy.visit(baseUrl_Client_Utilities);
     }
     tapAddCompanyBtn() 
     {
