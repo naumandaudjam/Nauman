@@ -36,4 +36,5 @@ describe("Add Company Test Suite", () => {
     addCompany.tapCreateCompanyBtn();
     addCompany.assertCompanyCreated();
   });
+  
 });

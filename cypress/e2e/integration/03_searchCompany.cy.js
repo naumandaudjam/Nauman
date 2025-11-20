@@ -19,6 +19,7 @@ describe("Search Company", () => {
       cy.get(LOCATORS.companyName).should("have.value", companyName);
     });
   });
+  
   it("Searches for the company and shows the matching result", () => {
     searchCompany.searchCompanyName();
     searchCompany.tapSearchBtn();
@@ -26,4 +27,5 @@ describe("Search Company", () => {
     cy.get(LOCATORS.searchCompanyResult).should("be.visible");
     searchCompany.assertCompanySearch();
   });
+
 });

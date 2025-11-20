@@ -20,17 +20,7 @@ Cypress.Commands.add("loginWithSession", () => {
   );
 });
 
-const shouldAutoLogin = () => {
-  const specPath = (Cypress.spec?.name || "").toLowerCase();
-  if (!specPath) {
-    return false;
-  }
-  const specFile = specPath.split(/[/\\]/).pop() || "";
-  return specFile !== "" && !specFile.includes("login");
-};
 
 beforeEach(() => {
-  if (shouldAutoLogin()) {
     cy.loginWithSession();
-  }
 });

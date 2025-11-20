@@ -22,6 +22,7 @@ class LoginPage {
   }
   assertDashboardLoaded() {
     cy.visit("https://bac-test.xpresspago.com/Home/Index");
+    cy.url().should("include", "/Home/Index");
   }
 }
 
