@@ -1,24 +1,24 @@
 const { defineConfig } = require("cypress");
-const allureWriter = require("@shelex/cypress-allure-plugin/writer");
 
 module.exports = defineConfig({
-  reporter: "allure",
+  reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
-    allureLogCypress: true,
-    allureOmitPreviousAttemptScreenshots: true,
+    reportDir: "reports/mocha",
+    reportFilename: "[status]-[datetime]-[name]-report",
+    overwrite: false,
+    html: true,
+    json: true,
+    charts: true,
+    reportPageTitle: "BAC Automation Mocha Report",
+    embeddedScreenshots: true,
+    inlineAssets: true,
   },
   e2e: {
     baseUrl: "https://bac-test.xpresspago.com",
     experimentalSessionAndOrigin: true,
     pageLoadTimeout: 120000,
-    env: {
-      allure: true,
-      allureResultsPath: "allure-results",
-      allureAttachRequests: true,
-      allureReuseAfterSpec: true,
-    },
     setupNodeEvents(on, config) {
-      allureWriter(on, config);
+      require("cypress-mochawesome-reporter/plugin")(on);
       return config;
     },
   },
